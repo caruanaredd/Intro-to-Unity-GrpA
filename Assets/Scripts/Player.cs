@@ -12,6 +12,9 @@ public class Player : MonoBehaviour
     [SerializeField] // exposes a private var for Unity
     private float _speed = 3.5f;
 
+    [SerializeField]
+    private Transform _laser;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -23,6 +26,13 @@ public class Player : MonoBehaviour
     void Update()
     {
         CalculateMovement();
+
+        // if I hit the space bar
+        // spawn a laser
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            Instantiate(_laser, transform.position, Quaternion.identity);
+        }
     }
 
     // Calculates player input.

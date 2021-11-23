@@ -35,10 +35,25 @@ public class Enemy : MonoBehaviour
         Debug.Log($"Hit: {other.name}");
 
         // if other is player
+        // damage the player
         // destroy us
+        if (other.tag == "Player")
+        {
+            Player player = other.GetComponent<Player>();
+            if (player != null)
+            {
+                player.Damage();
+            }
+            Destroy(gameObject);
+        }
 
         // if other is laser
-        // destroy us
         // destroy laser
+        // destroy us
+        if (other.tag == "Laser")
+        {
+            Destroy(other.gameObject);
+            Destroy(gameObject);
+        }
     }
 }

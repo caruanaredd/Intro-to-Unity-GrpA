@@ -19,11 +19,22 @@ public class Player : MonoBehaviour
     private float _fireRate = 0.5f;
     private float _nextFire = -1f;
 
+    [SerializeField]
+    private int _lives = 3;
+
+    private SpawnManager _spawnManager;
+
     // Start is called before the first frame update
     void Start()
     {
         // take the current position, move to 0, 0, 0.
         transform.position = new Vector3(0, 0, 0);
+
+        _spawnManager = GameObject.Find("Spawn Manager").GetComponent<SpawnManager>();
+        if (_spawnManager == null)
+        {
+            Debug.LogWarning("SpawnManager is NULL");
+        }
     }
 
     // Update is called once per frame
@@ -88,4 +99,20 @@ public class Player : MonoBehaviour
         Instantiate(_laser, transform.position, Quaternion.identity);
         _nextFire = Time.time + _fireRate;
     }
+
+    // Removes one life from the player.
+    public void Damage()
+    {
+        // lives - 1
+        // check if dead
+        // destroy us
+        _lives -= 1;
+
+        if (_lives < 1)
+        {
+            _spawnManager.OnPlayerDeath();
+            Destroy(gameObject);
+        }
+    }
+    
 }

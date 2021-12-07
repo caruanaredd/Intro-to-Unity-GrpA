@@ -21,8 +21,11 @@ public class Player : MonoBehaviour
 
     [SerializeField]
     private int _lives = 3;
+    
+    private int _score = 0;
 
     private SpawnManager _spawnManager;
+    private UIManager _uiManager;
 
     // Start is called before the first frame update
     void Start()
@@ -34,6 +37,12 @@ public class Player : MonoBehaviour
         if (_spawnManager == null)
         {
             Debug.LogWarning("SpawnManager is NULL");
+        }
+
+        _uiManager = GameObject.Find("UI Manager").GetComponent<UIManager>();
+        if (_uiManager == null)
+        {
+            Debug.LogWarning("UI Manager is NULL");
         }
     }
 
@@ -114,5 +123,11 @@ public class Player : MonoBehaviour
             Destroy(gameObject);
         }
     }
-    
+
+    public void AddScore()
+    {
+        // add 10 points to the score.
+        _score += 10;
+        _uiManager.UpdateScore(_score);
+    }
 }

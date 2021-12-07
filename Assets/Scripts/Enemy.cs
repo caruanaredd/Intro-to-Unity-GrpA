@@ -7,10 +7,13 @@ public class Enemy : MonoBehaviour
     [SerializeField]
     private float _speed = 4f;
 
+    private Player _player;
+
     // Start is called before the first frame update
     void Start()
     {
-        
+        // finds and gets the player script.
+        _player = GameObject.Find("Player").GetComponent<Player>();
     }
 
     // Update is called once per frame
@@ -52,6 +55,7 @@ public class Enemy : MonoBehaviour
         // destroy us
         if (other.tag == "Laser")
         {
+            _player.AddScore();
             Destroy(other.gameObject);
             Destroy(gameObject);
         }

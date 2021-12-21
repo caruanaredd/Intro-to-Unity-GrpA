@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class Player : MonoBehaviour
 {
@@ -23,6 +24,8 @@ public class Player : MonoBehaviour
     private int _lives = 3;
     
     private int _score = 0;
+
+    private Vector2 direction = Vector2.zero;
 
     private SpawnManager _spawnManager;
     private UIManager _uiManager;
@@ -53,20 +56,20 @@ public class Player : MonoBehaviour
 
         // if I hit the space bar
         // spawn a laser
-        if (Input.GetKeyDown(KeyCode.Space) && Time.time > _nextFire)
-        {
-            FireLaser();
-        }
+        // if (Input.GetKeyDown(KeyCode.Space) && Time.time > _nextFire)
+        // {
+        //     FireLaser();
+        // }
     }
 
     // Calculates player input.
     void CalculateMovement()
     {
         // Get the horizontal player controls.
-        float horizontal = Input.GetAxis("Horizontal");
-        float vertical = Input.GetAxis("Vertical");
+        // float horizontal = Input.GetAxis("Horizontal");
+        // float vertical = Input.GetAxis("Vertical");
 
-        Vector3 direction = new Vector3(horizontal, vertical);
+        // Vector3 direction = new Vector3(horizontal, vertical);
         transform.Translate(direction * _speed * Time.deltaTime);
 
         // move the player to the right.
@@ -102,11 +105,15 @@ public class Player : MonoBehaviour
         }
     }
 
-    // Fires a laser.
-    void FireLaser()
+    // Fires a laser
+    // OnShoot is inside the PlayerInput Actions
+    void OnShoot()
     {
-        Instantiate(_laser, transform.position, Quaternion.identity);
-        _nextFire = Time.time + _fireRate;
+        if (Time.time >= _nextFire)
+        {
+            Instantiate(_laser, transform.position, Quaternion.identity);
+            _nextFire = Time.time + _fireRate;
+        }
     }
 
     // Removes one life from the player.
@@ -130,5 +137,10 @@ public class Player : MonoBehaviour
         // add 10 points to the score.
         _score += 10;
         _uiManager.UpdateScore(_score);
+    }
+
+    void OnDirection(InputValue value)
+    {
+        direction = value.Get<Vector2>();
     }
 }

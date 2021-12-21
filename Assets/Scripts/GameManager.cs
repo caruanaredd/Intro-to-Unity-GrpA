@@ -9,11 +9,11 @@ public class GameManager : MonoBehaviour
     private bool _isGameOver = false;
 
     // Update is called once per frame
-    void Update()
+    void OnRestart()
     {
         // if the R key was pressed AND is game over
         // reload the level
-        if (Input.GetKeyDown(KeyCode.R) && _isGameOver == true)
+        if (_isGameOver == true)
         {
             SceneManager.LoadScene("Game");
         }

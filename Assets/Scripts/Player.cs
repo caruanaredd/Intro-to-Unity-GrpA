@@ -27,6 +27,9 @@ public class Player : MonoBehaviour
 
     private Vector2 direction = Vector2.zero;
 
+    // Keeps record of all player identification.
+    private PlayerInput _input;
+
     private SpawnManager _spawnManager;
     private UIManager _uiManager;
 
@@ -47,6 +50,8 @@ public class Player : MonoBehaviour
         {
             Debug.LogWarning("UI Manager is NULL");
         }
+
+        _input = GetComponent<PlayerInput>();
     }
 
     // Update is called once per frame
@@ -123,7 +128,7 @@ public class Player : MonoBehaviour
         // check if dead
         // destroy us
         _lives -= 1;
-        _uiManager.UpdateLives(_lives);
+        _uiManager.UpdateLives(_input.playerIndex, _lives);
 
         if (_lives < 1)
         {
@@ -136,7 +141,7 @@ public class Player : MonoBehaviour
     {
         // add 10 points to the score.
         _score += 10;
-        _uiManager.UpdateScore(_score);
+        _uiManager.UpdateScore(_input.playerIndex, _score);
     }
 
     void OnDirection(InputValue value)

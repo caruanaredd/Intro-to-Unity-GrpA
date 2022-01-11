@@ -6,10 +6,10 @@ using UnityEngine.UI;
 public class UIManager : MonoBehaviour
 {
     [SerializeField]
-    private Text _scoreText;
+    private Text[] _scoreText;
 
     [SerializeField]
-    private Image _livesImage;
+    private Image[] _livesImage;
 
     [SerializeField]
     private Sprite[] _lives;
@@ -26,21 +26,22 @@ public class UIManager : MonoBehaviour
     void Start()
     {
         // updates the score text :D
-        UpdateScore(0);
+        UpdateScore(0, 0);
+        UpdateScore(1, 0);
         _gameOverText.SetActive(false);
         _restartText.SetActive(false);
 
         _gameManager = GameObject.Find("Game Manager").GetComponent<GameManager>();
     }
 
-    public void UpdateScore(int points)
+    public void UpdateScore(int playerID, int points)
     {
-        _scoreText.text = "Score: " + points;
+        _scoreText[playerID].text = "Score: " + points;
     }
 
-    public void UpdateLives(int points)
+    public void UpdateLives(int playerID, int points)
     {
-        _livesImage.sprite = _lives[points];
+        _livesImage[playerID].sprite = _lives[points];
         if (points <= 0)
         {
             _gameOverText.SetActive(true);
